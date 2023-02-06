@@ -5,10 +5,10 @@ import cps.tme.codecomrades.javainterfaces.ContentTemplateI;
 import java.util.Set;
 
 public class ContentTemplate implements ContentTemplateI {
-    private String title;
-    private String albumTitle;
-    private Set<String> interpreters;
-    private Set<String> composers;
+    private final String title;
+    private final String albumTitle;
+    private final Set<String> interpreters;
+    private final Set<String> composers;
 
     public ContentTemplate(String title, String albumTitle, Set<String> interpreters, Set<String> composers) {
         this.title = title;

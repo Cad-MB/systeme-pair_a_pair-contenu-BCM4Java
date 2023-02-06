@@ -1,4 +1,4 @@
-package cps.tme.codecomrades.componentinterfaces;
+package cps.tme.codecomrades.interfaces;
 
 import cps.tme.codecomrades.javainterfaces.ContentDescriptorI;
 import cps.tme.codecomrades.javainterfaces.ContentTemplateI;
