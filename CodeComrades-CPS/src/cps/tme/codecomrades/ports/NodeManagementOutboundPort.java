@@ -20,7 +20,7 @@ public class NodeManagementOutboundPort extends AbstractOutboundPort implements 
 
     @Override
     public Set<PeerNodeAddressI> join(PeerNodeAddressI a) throws Exception {
-        return ((NodeManagementCI)this.getConnector()).join(a);
+        return ((NodeManagementCI) this.getConnector()).join(a);
     }
 
     @Override

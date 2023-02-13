@@ -9,7 +9,7 @@ import java.util.Set;
 public class NodeManagementConnector extends AbstractConnector implements NodeManagementCI {
     @Override
     public Set<PeerNodeAddressI> join(PeerNodeAddressI a) throws Exception {
-        return ((NodeManagementCI)this.offering).join(a);
+        return ((NodeManagementCI) this.offering).join(a);
     }
 
     @Override

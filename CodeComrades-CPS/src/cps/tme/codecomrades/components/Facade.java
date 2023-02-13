@@ -12,14 +12,14 @@ import java.util.Set;
 
 public class Facade extends AbstractComponent {
 
-    protected final NodeManagementInboundPort inboundPort;
+    protected final NodeManagementInboundPort nodeManagementInboundPort;
 
     protected Facade(String nodeManagementInboundPortURI) throws Exception {
         super(1, 0);
         assert nodeManagementInboundPortURI != null;
 
-        this.inboundPort = new NodeManagementInboundPort(nodeManagementInboundPortURI, this);
-        this.inboundPort.publishPort();
+        this.nodeManagementInboundPort = new NodeManagementInboundPort(nodeManagementInboundPortURI, this);
+        this.nodeManagementInboundPort.publishPort();
 
         this.getTracer().setTitle("Facade");
 
@@ -30,8 +30,8 @@ public class Facade extends AbstractComponent {
     protected Facade(String reflectionInboundPortURI, String nodeManagementInboundPortURI) throws Exception {
         super(reflectionInboundPortURI, 1, 0);
 
-        this.inboundPort = new NodeManagementInboundPort(nodeManagementInboundPortURI, this);
-        this.inboundPort.publishPort();
+        this.nodeManagementInboundPort = new NodeManagementInboundPort(nodeManagementInboundPortURI, this);
+        this.nodeManagementInboundPort.publishPort();
 
         this.getTracer().setTitle("Facade");
     }
@@ -43,7 +43,7 @@ public class Facade extends AbstractComponent {
 
     @Override
     public synchronized void finalise() throws Exception {
-        this.inboundPort.unpublishPort();
+        this.nodeManagementInboundPort.unpublishPort();
         super.finalise();
     }
 }
