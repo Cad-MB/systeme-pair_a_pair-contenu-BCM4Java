@@ -40,4 +40,10 @@ public class Facade extends AbstractComponent {
         System.out.println("URI = " + a.getNodeURI());
         return null;
     }
+
+    @Override
+    public synchronized void finalise() throws Exception {
+        this.inboundPort.unpublishPort();
+        super.finalise();
+    }
 }

@@ -52,5 +52,12 @@ public class Peer extends AbstractComponent {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public synchronized void finalise() throws Exception {
+        this.doPortDisconnection(this.outboundPort.getPortURI());
+        this.outboundPort.unpublishPort();
+        super.finalise();
+    }
 }
 
