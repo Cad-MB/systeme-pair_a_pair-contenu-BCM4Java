@@ -4,11 +4,9 @@ import cps.tme.codecomrades.javainterfaces.FacadeNodeAddressI;
 
 public class FacadeNodeAddress implements FacadeNodeAddressI {
     private final String nodeManagementURI;
-    private final String nodeIdentifier;
 
-    public FacadeNodeAddress(String nodeManagementURI, String nodeIdentifier) {
+    public FacadeNodeAddress(String nodeManagementURI) {
         this.nodeManagementURI = nodeManagementURI;
-        this.nodeIdentifier = nodeIdentifier;
     }
 
     @Override
@@ -18,7 +16,7 @@ public class FacadeNodeAddress implements FacadeNodeAddressI {
 
     @Override
     public String getNodeIdentifier() {
-        return this.nodeIdentifier;
+        return this.nodeManagementURI;
     }
 
     @Override

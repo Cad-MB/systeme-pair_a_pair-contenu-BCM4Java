@@ -1,7 +1,6 @@
 package cps.tme.codecomrades.components;
 
 import cps.tme.codecomrades.connectors.NodeConnector;
-import cps.tme.codecomrades.connectors.NodeManagementConnector;
 import cps.tme.codecomrades.interfaces.NodeCI;
 import cps.tme.codecomrades.interfaces.NodeManagementCI;
 import cps.tme.codecomrades.javaclasses.PeerNodeAddress;
@@ -14,6 +13,9 @@ import fr.sorbonne_u.components.annotations.OfferedInterfaces;
 import fr.sorbonne_u.components.annotations.RequiredInterfaces;
 import fr.sorbonne_u.components.exceptions.ComponentStartException;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @RequiredInterfaces(required = {NodeManagementCI.class, NodeCI.class})
 @OfferedInterfaces(offered = {NodeCI.class})
 
@@ -22,54 +24,46 @@ public class Peer extends AbstractComponent {
     protected NodeManagementOutboundPort nodeManagementOutboundPort;
     protected NodeOutboundPort nodeOutboundPort;
     protected NodeInboundPort nodeInboundPort;
-    protected String otherNodeManagementInboundPortURI;
-    protected String otherNodeInboundPortURI;
+    protected String reflectionURI;
+    protected Set<PeerNodeAddressI> neighboringNodes;
 
 
-    protected Peer(String nodeManagementOutboundPortURI, String nodeOutboundPortURI, String nodeInboundPortURI, String otherNodeInboundPortURI, String otherNodeManagementInboundPortURI) throws Exception {
+    protected Peer(String nodeManagementOutboundPortURI, String nodeOutboundPortURI, String nodeInboundPortURI) throws Exception {
         super(1, 0);
-        this.otherNodeManagementInboundPortURI = otherNodeManagementInboundPortURI;
         this.nodeManagementOutboundPort = new NodeManagementOutboundPort(nodeManagementOutboundPortURI, this);
         this.nodeManagementOutboundPort.publishPort();
-
-        this.otherNodeInboundPortURI = otherNodeInboundPortURI;
         this.nodeOutboundPort = new NodeOutboundPort(nodeOutboundPortURI, this);
         this.nodeOutboundPort.publishPort();
         this.nodeInboundPort = new NodeInboundPort(nodeInboundPortURI, this);
         this.nodeInboundPort.publishPort();
 
         this.getTracer().setTitle("Peer");
+        this.neighboringNodes = new HashSet<>();
     }
 
-    protected Peer(String reflectionInboundPortURI, String nodeManagementOutboundPortURI, String nodeOutboundPortURI, String nodeInboundPortURI, String otherNodeInboundPortURI, String otherNodeManagementInboundPortURI) throws Exception {
+    protected Peer(String reflectionInboundPortURI, String nodeManagementOutboundPortURI, String nodeOutboundPortURI, String nodeInboundPortURI) throws Exception {
         super(reflectionInboundPortURI, 1, 0);
-        this.otherNodeManagementInboundPortURI = otherNodeManagementInboundPortURI;
+        this.reflectionURI = reflectionInboundPortURI;
         this.nodeManagementOutboundPort = new NodeManagementOutboundPort(nodeManagementOutboundPortURI, this);
         this.nodeManagementOutboundPort.publishPort();
-        this.otherNodeInboundPortURI = otherNodeInboundPortURI;
         this.nodeOutboundPort = new NodeOutboundPort(nodeOutboundPortURI, this);
         this.nodeOutboundPort.publishPort();
         this.nodeInboundPort = new NodeInboundPort(nodeInboundPortURI, this);
         this.nodeInboundPort.publishPort();
 
         this.getTracer().setTitle("Peer");
+        this.neighboringNodes = new HashSet<>();
     }
 
     @Override
     public void execute() throws Exception {
         super.execute();
-        try {
-            this.doPortConnection(this.nodeManagementOutboundPort.getPortURI(), otherNodeManagementInboundPortURI, NodeManagementConnector.class.getCanonicalName());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        this.neighboringNodes = this.nodeManagementOutboundPort.join(new PeerNodeAddress(this.nodeInboundPort.getPortURI()));
+        System.out.println("BEEP " + this.reflectionURI);
+        for (PeerNodeAddressI neighbor:
+             this.neighboringNodes) {
+            connect(neighbor);
         }
-        try {
-            this.doPortConnection(this.nodeOutboundPort.getPortURI(), this.otherNodeInboundPortURI, NodeConnector.class.getCanonicalName());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        this.nodeManagementOutboundPort.join(new PeerNodeAddress(this.otherNodeManagementInboundPortURI, "aaa"));
-        this.nodeOutboundPort.connect(new PeerNodeAddress(this.otherNodeInboundPortURI, this.otherNodeInboundPortURI));
     }
 
     @Override
@@ -88,9 +82,12 @@ public class Peer extends AbstractComponent {
         super.finalise();
     }
 
-    public PeerNodeAddressI connect(PeerNodeAddressI a) {
-        System.out.println("Connect : URI = " + a.getNodeURI());
-        return null;
+    public PeerNodeAddressI connect(PeerNodeAddressI a) throws Exception {
+        System.out.println("Connecting " + this.nodeOutboundPort.getPortURI() + " to " + a.getNodeURI());
+        this.doPortConnection(this.nodeOutboundPort.getPortURI(), a.getNodeURI(), NodeConnector.class.getCanonicalName());
+        PeerNodeAddress myself = new PeerNodeAddress(this.nodeInboundPort.getPortURI());
+        this.nodeOutboundPort.connect(myself);
+        return myself;
     }
 }
 

@@ -6,6 +6,7 @@ import cps.tme.codecomrades.ports.NodeManagementInboundPort;
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.annotations.OfferedInterfaces;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @OfferedInterfaces(offered = {NodeManagementCI.class})
@@ -13,6 +14,7 @@ import java.util.Set;
 public class Facade extends AbstractComponent {
 
     protected final NodeManagementInboundPort nodeManagementInboundPort;
+    protected Set<PeerNodeAddressI> rootNodes;
 
     protected Facade(String nodeManagementInboundPortURI) throws Exception {
         super(1, 0);
@@ -25,6 +27,7 @@ public class Facade extends AbstractComponent {
 
         AbstractComponent.checkImplementationInvariant(this);
         AbstractComponent.checkInvariant(this);
+        this.rootNodes = new HashSet<>();
     }
 
     protected Facade(String reflectionInboundPortURI, String nodeManagementInboundPortURI) throws Exception {
@@ -34,11 +37,16 @@ public class Facade extends AbstractComponent {
         this.nodeManagementInboundPort.publishPort();
 
         this.getTracer().setTitle("Facade");
+        this.rootNodes = new HashSet<>();
     }
 
     public Set<PeerNodeAddressI> join(PeerNodeAddressI a) throws Exception {
-        System.out.println("URI = " + a.getNodeURI());
-        return null;
+        System.out.println("Added peer node " + a.getNodeURI() + " as root.");
+        Set<PeerNodeAddressI> neighborsOfA = new HashSet<>(this.rootNodes);
+        this.rootNodes.add(a);
+        System.out.println("Current root nodes of facade: " + this.rootNodes.toString());
+        System.out.println("Neighbors returned: " + neighborsOfA);
+        return neighborsOfA;
     }
 
     @Override

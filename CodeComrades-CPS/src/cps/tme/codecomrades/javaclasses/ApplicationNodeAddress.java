@@ -4,8 +4,8 @@ import cps.tme.codecomrades.javainterfaces.ApplicationNodeAddressI;
 
 public class ApplicationNodeAddress extends FacadeNodeAddress implements ApplicationNodeAddressI {
     private final String contentManagementURI;
-    public ApplicationNodeAddress(String nodeManagementURI, String contentManagementURI, String nodeIdentifier) {
-        super(nodeManagementURI, nodeIdentifier);
+    public ApplicationNodeAddress(String nodeManagementURI, String contentManagementURI) {
+        super(nodeManagementURI);
         this.contentManagementURI = contentManagementURI;
     }
 

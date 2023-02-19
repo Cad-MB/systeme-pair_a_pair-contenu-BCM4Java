@@ -2,10 +2,12 @@ package cps.tme.codecomrades;
 
 import cps.tme.codecomrades.components.Facade;
 import cps.tme.codecomrades.components.Peer;
+import cps.tme.codecomrades.connectors.NodeManagementConnector;
 import fr.sorbonne_u.components.AbstractComponent;
 import fr.sorbonne_u.components.cvm.AbstractCVM;
 
 public class CVM extends AbstractCVM {
+
 
     protected static final String FACADE_NM_INBOUND_PORT_URI = "facade-nm-inbound-port";
     protected static final String PEER1_NM_OUTBOUND_PORT_URI = "peer1-nm-outbound-port";
@@ -27,20 +29,18 @@ public class CVM extends AbstractCVM {
     @Override
     public void deploy() throws Exception {
 
-        this.facadeURI = AbstractComponent.createComponent(Facade.class.getCanonicalName(), new Object[]{FACADE_NM_INBOUND_PORT_URI});
+        this.facadeURI = AbstractComponent.createComponent(Facade.class.getCanonicalName(), new Object[]{"Facade1", FACADE_NM_INBOUND_PORT_URI});
         assert this.isDeployedComponent(this.facadeURI);
         this.toggleTracing(this.facadeURI);
         this.toggleLogging(this.facadeURI);
 
-        /*this.peerURI = AbstractComponent.createComponent(Peer.class.getCanonicalName(), new Object[]{PEER_OUTBOUND_PORT_URI, FACADE_INBOUND_PORT_URI});
-        assert this.isDeployedComponent(this.peerURI);
-        this.toggleTracing(this.peerURI);
-        this.toggleLogging(this.peerURI);*/
-
-        this.peer1URI = AbstractComponent.createComponent(Peer.class.getCanonicalName(), new Object[]{PEER1_NM_OUTBOUND_PORT_URI, PEER1_NODE_OUTBOUND_PORT_URI, PEER1_NODE_INBOUND_PORT_URI, PEER2_NODE_INBOUND_PORT_URI, FACADE_NM_INBOUND_PORT_URI});
+        this.peer1URI = AbstractComponent.createComponent(Peer.class.getCanonicalName(), new Object[]{"Peer1", PEER1_NM_OUTBOUND_PORT_URI, PEER1_NODE_OUTBOUND_PORT_URI, PEER1_NODE_INBOUND_PORT_URI});
         assert this.isDeployedComponent(this.peer1URI);
-        this.peer2URI = AbstractComponent.createComponent(Peer.class.getCanonicalName(), new Object[]{PEER2_NM_OUTBOUND_PORT_URI, PEER2_NODE_OUTBOUND_PORT_URI, PEER2_NODE_INBOUND_PORT_URI, PEER1_NODE_INBOUND_PORT_URI, FACADE_NM_INBOUND_PORT_URI});
+        this.doPortConnection(this.peer1URI, PEER1_NM_OUTBOUND_PORT_URI, FACADE_NM_INBOUND_PORT_URI, NodeManagementConnector.class.getCanonicalName());
+        this.peer2URI = AbstractComponent.createComponent(Peer.class.getCanonicalName(), new Object[]{"Peer2", PEER2_NM_OUTBOUND_PORT_URI, PEER2_NODE_OUTBOUND_PORT_URI, PEER2_NODE_INBOUND_PORT_URI});
         assert this.isDeployedComponent(this.peer2URI);
+        this.doPortConnection(this.peer2URI, PEER2_NM_OUTBOUND_PORT_URI, FACADE_NM_INBOUND_PORT_URI, NodeManagementConnector.class.getCanonicalName());
+
         super.deploy();
         assert this.deploymentDone();
     }
