@@ -30,6 +30,7 @@ public class NodeManagementInboundPort extends AbstractInboundPort implements No
     }
 
     @Override
-    public void leave(PeerNodeAddressI a) {
+    public void leave(PeerNodeAddressI a) throws Exception {
+        ((Facade)this.getOwner()).leave(a);
     }
 }

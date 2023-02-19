@@ -49,6 +49,10 @@ public class Facade extends AbstractComponent {
         return neighborsOfA;
     }
 
+    public void leave(PeerNodeAddressI a) throws Exception {
+        this.rootNodes.remove(a);
+    }
+
     @Override
     public synchronized void finalise() throws Exception {
         this.nodeManagementInboundPort.unpublishPort();

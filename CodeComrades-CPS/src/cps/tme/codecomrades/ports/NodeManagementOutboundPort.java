@@ -24,7 +24,7 @@ public class NodeManagementOutboundPort extends AbstractOutboundPort implements 
     }
 
     @Override
-    public void leave(PeerNodeAddressI a) {
-
+    public void leave(PeerNodeAddressI a) throws Exception {
+        ((NodeManagementCI) this.getConnector()).leave(a);
     }
 }

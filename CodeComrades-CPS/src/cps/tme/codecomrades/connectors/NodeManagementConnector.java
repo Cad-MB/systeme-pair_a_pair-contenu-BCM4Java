@@ -13,7 +13,7 @@ public class NodeManagementConnector extends AbstractConnector implements NodeMa
     }
 
     @Override
-    public void leave(PeerNodeAddressI a) {
-
+    public void leave(PeerNodeAddressI a) throws Exception {
+        ((NodeManagementCI) this.offering).leave(a);
     }
 }
