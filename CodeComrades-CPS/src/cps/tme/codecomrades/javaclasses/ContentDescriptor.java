@@ -16,6 +16,10 @@ public class ContentDescriptor extends ContentTemplate implements ContentDescrip
 
     public ContentDescriptor(long size, String title, String albumTitle, Set<String> interpreters, Set<String> composers) {
         super(title,albumTitle,interpreters,composers);
+        this.title = title;
+        this.albumTitle = albumTitle;
+        this.interpreters = interpreters;
+        this.composers = composers;
         this.size = size;
     }
 
