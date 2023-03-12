@@ -1,9 +1,8 @@
-package cps.tme.codecomrades.javaclasses;
-
+import cps.tme.codecomrades.javaclasses.FacadeNodeAddress;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class FacadeNodeAddressIntegrationTest {
+public class FacadeNodeAddressTest {
 
     @Test
     void testGetNodeManagementURI() {

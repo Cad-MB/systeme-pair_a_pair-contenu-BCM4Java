@@ -1,5 +1,4 @@
-package cps.tme.codecomrades.javaclasses;
-
+import cps.tme.codecomrades.javaclasses.ContentTemplate;
 import cps.tme.codecomrades.javainterfaces.ContentTemplateI;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

@@ -1,9 +1,8 @@
-package cps.tme.codecomrades.javaclasses;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import cps.tme.codecomrades.javaclasses.PeerNodeAddress;
 import org.junit.jupiter.api.Test;
 
 import cps.tme.codecomrades.javainterfaces.PeerNodeAddressI;

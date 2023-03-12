@@ -1,5 +1,4 @@
-package cps.tme.codecomrades.javaclasses;
-
+import cps.tme.codecomrades.javaclasses.ContentNodeAddress;
 import cps.tme.codecomrades.javainterfaces.ContentNodeAddressI;
 import org.junit.jupiter.api.Test;
 
