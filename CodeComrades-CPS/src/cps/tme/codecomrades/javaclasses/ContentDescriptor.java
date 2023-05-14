@@ -8,18 +8,10 @@ import java.util.Set;
 
 public class ContentDescriptor extends ContentTemplate implements ContentDescriptorI {
     private final long size;
-    private String title;
-    private String albumTitle;
-    private Set<String> interpreters;
-    private Set<String> composers;
     private ContentNodeAddressI contentNodeAddress;
 
     public ContentDescriptor(long size, String title, String albumTitle, Set<String> interpreters, Set<String> composers) {
         super(title,albumTitle,interpreters,composers);
-        this.title = title;
-        this.albumTitle = albumTitle;
-        this.interpreters = interpreters;
-        this.composers = composers;
         this.size = size;
     }
 
@@ -32,17 +24,17 @@ public class ContentDescriptor extends ContentTemplate implements ContentDescrip
     }
 
     public boolean equals(ContentDescriptorI cd) {
-        return this.title.equals(cd.getTitle()) &&
-                this.albumTitle.equals(cd.getAlbumTitle()) &&
-                this.interpreters.equals(cd.getInterpreters()) &&
-                this.composers.equals(cd.getComposers()) &&
+        return this.getTitle().equals(cd.getTitle()) &&
+                this.getAlbumTitle().equals(cd.getAlbumTitle()) &&
+                this.getInterpreters().equals(cd.getInterpreters()) &&
+                this.getComposers().equals(cd.getComposers()) &&
                 this.size == cd.getSize();
     }
 
     public boolean match(ContentTemplateI t) {
-        return this.title.equals(t.getTitle()) ||
-                this.albumTitle.equals(t.getAlbumTitle()) ||
-                this.interpreters.equals(t.getInterpreters()) ||
-                this.composers.equals(t.getComposers());
+        return this.getTitle().equals(t.getTitle()) ||
+                this.getAlbumTitle().equals(t.getAlbumTitle()) ||
+                this.getInterpreters().containsAll(t.getInterpreters()) ||
+                this.getComposers().containsAll(t.getComposers());
     }
 }

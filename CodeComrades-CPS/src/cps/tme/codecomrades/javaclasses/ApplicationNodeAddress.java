@@ -3,14 +3,14 @@ package cps.tme.codecomrades.javaclasses;
 import cps.tme.codecomrades.javainterfaces.ApplicationNodeAddressI;
 
 public class ApplicationNodeAddress extends FacadeNodeAddress implements ApplicationNodeAddressI {
-    private final String contentManagementURI;
-    public ApplicationNodeAddress(String nodeManagementURI, String contentManagementURI) {
+    private final String facadeContentManagementURI;
+    public ApplicationNodeAddress(String nodeManagementURI, String facadeContentManagementURI) {
         super(nodeManagementURI);
-        this.contentManagementURI = contentManagementURI;
+        this.facadeContentManagementURI = facadeContentManagementURI;
     }
 
     @Override
     public String getContentManagementURI() {
-        return this.contentManagementURI;
+        return this.facadeContentManagementURI;
     }
 }
